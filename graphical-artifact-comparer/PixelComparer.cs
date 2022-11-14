@@ -1,10 +1,19 @@
-﻿using System.Numerics;
-
-namespace graphical_artifact_comparer
+﻿namespace graphical_artifact_comparer
 {
-	public class PixelComparer
+    public class PixelComparer
 	{
-        internal BigInteger Compare(ushort[] a, ushort[] b) => a.Length - a.Zip(b, (la, lb) => la == lb).Count(x => x);
+        public int Compare(IEnumerable<string> a, IEnumerable<string> b) {
+            int artifacts = 0;
+            
+            for(int i = 0; i < a.Count(); i++){
+                if (a.ElementAt(i) != b.ElementAt(i)) {
+                    artifacts++;
+                }
+            }
+
+            return artifacts;
+            // return a.AsParallel().Except(b.AsParallel()).Count();
+        } 
     }
 }
 

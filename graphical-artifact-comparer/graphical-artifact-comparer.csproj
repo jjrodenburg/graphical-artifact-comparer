@@ -10,5 +10,9 @@
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
     <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="12.2.1" />
+    <PackageReference Include="CoenM.ImageSharp.ImageHash" Version="1.3.6" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="CoenM.ImageSharp.ImageHash" />
   </ItemGroup>
 </Project>

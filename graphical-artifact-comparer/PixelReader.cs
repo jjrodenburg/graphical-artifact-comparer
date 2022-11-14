@@ -1,16 +1,13 @@
-﻿using System;
-using System.Drawing;
-using System.Runtime.InteropServices;
-using ImageMagick;
+﻿using ImageMagick;
 
 namespace graphical_artifact_comparer
 {
-	public class PixelReader
+    public class PixelReader
 	{
-        internal ushort[] Read(string filePath)
+        public IEnumerable<string> Read(string filePath)
         {
             MagickImage image = new MagickImage(filePath);
-            return image.GetPixels().ToArray() ?? Array.Empty<ushort>();
+            return image.GetPixelsUnsafe().Select(pixel => pixel.ToColor().ToString());
         }
     }
 }

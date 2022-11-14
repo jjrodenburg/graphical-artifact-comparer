@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using CommandLine;
+﻿using CommandLine;
 using graphical_artifact_comparer;
 
 namespace App;
@@ -42,11 +41,20 @@ public class Program
         Console.WriteLine("Searching for graphical artifacts...");
 
         PixelReader pixelReader = new PixelReader();
-        ushort[] originalFilePixels = pixelReader.Read(originalFilePath);
-        ushort[] compressedFilePixels = pixelReader.Read(compressedFilePath);
+        IEnumerable<string> originalFilePixels = pixelReader.Read(originalFilePath);
+        IEnumerable<string> compressedFilePixels = pixelReader.Read(compressedFilePath);
 
-        BigInteger nonEqualPixels = new PixelComparer().Compare(originalFilePixels, compressedFilePixels);
+        int nonEqualPixels = new PixelComparer().Compare(originalFilePixels, compressedFilePixels);
+
+        Console.WriteLine("Searching for difference hash similarity...");
+
+        DHasher dhash = new DHasher();
+        ulong originalFileHash = dhash.CalculateDifferenceHash(originalFilePath);
+        ulong differenceFileHash = dhash.CalculateDifferenceHash(compressedFilePath);
+
+        double differenceRatio = dhash.CalculateImageDifferences(originalFileHash, differenceFileHash);
 
         Console.WriteLine($"There are {nonEqualPixels} graphical artifacts");
+        Console.WriteLine($"Similarity ratio: {differenceRatio}%");
     }
 }
